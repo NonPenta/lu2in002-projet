@@ -1,0 +1,68 @@
+digraph G {
+	subgraph root_ {
+		rank=same
+		node [shape=rectangle style=filled fillcolor=gray95]
+		edge [style=invis]
+		Agent -> Ressource -> ForceEnvironnementale -> UI
+	}
+
+	node [shape=record style=filled fillcolor=gray95]
+
+	edge [dir=back arrowtail=empty style=""]
+
+	Agent -> Graminee
+	Agent -> Isopode
+	Agent -> Collembole
+	Agent -> Rat
+	Agent -> Serpent
+
+	Ressource -> RessourceFixe
+	Ressource -> RessourceDynamique
+
+	RessourceFixe -> Ca
+	RessourceFixe -> Graines
+	RessourceFixe -> Moisissures
+	RessourceFixe -> Decor
+
+	RessourceDynamique -> Champignon
+	RessourceDynamique -> Spores
+	RessourceDynamique -> MatiereBiologique
+	RessourceDynamique -> Bundle
+
+	edge [style=dashed arrowtail=empty]
+	ForceEnvironnementale -> Vent
+
+	edge [dir=back style=dashed arrowtail=diamond]
+	Bundle:rss -> Ressource
+
+	Ressource [
+		shape=plain
+		label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+			<tr> <td> <b> Ressource </b> </td> </tr>
+			<tr> <td>
+				<table border="0" cellborder="0" cellspacing="0">
+					<tr> <td> <I> properties </I> </td> </tr>
+					<tr> <td> private static int nbRessourcesCreees = 0; </td> </tr>
+					<tr> <td> public final int ident; </td> </tr>
+					<tr> <td> public final String type; </td> </tr>
+					<tr> <td> private int quantite; </td> </tr>
+					<tr> <td> private int x; </td> </tr>
+					<tr> <td> private int y; </td> </tr>
+				</table>
+			</td> </tr>
+		</table>>
+	]
+
+	Bundle [
+		shape=plain
+		label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+			<tr> <td> <b> Bundle </b> </td> </tr>
+			<tr> <td>
+				<table border="0" cellborder="0" cellspacing="0">
+					<tr> <td> <I> properties </I> </td> </tr>
+					<tr> <td port="rss"> private ArrayList&lt;Ressource&gt; Ressources; </td> </tr>
+				</table>
+			</td> </tr>
+		</table>>
+	]
+}

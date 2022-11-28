@@ -10,22 +10,16 @@ digraph G {
 
 	edge [dir=back arrowtail=empty style=""]
 
-	Agent -> Graminee
-	Agent -> Isopode
-	Agent -> Collembole
-	Agent -> Rat
-	Agent -> Serpent
+	Agent -> Organisme
+	Agent -> Vent
 
 	Ressource -> RessourceFixe
 	Ressource -> RessourceDynamique
 
-	RessourceFixe -> Ca
-	RessourceFixe -> Graines
-	RessourceFixe -> Moisissures
-	RessourceFixe -> Decor
+	RessourceFixe -> Consommables
+	RessourceFixe -> NonConsommables
 
 	RessourceDynamique -> Champignon
-	RessourceDynamique -> Spores
 	RessourceDynamique -> MatiereBiologique
 	RessourceDynamique -> Bundle
 

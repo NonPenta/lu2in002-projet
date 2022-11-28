@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class UI {
 	static boolean isInstantiated = false;
 
@@ -7,6 +9,11 @@ public class UI {
 	char[][] buffer;
 	int[][] fgColor;
 	int[][] bgColor;
+
+	int cursorX;
+	int cursorY;
+
+	Terrain t = new Terrain(20, 20);
 
 	private UI(int height, int width) {
 		this.height = height;
@@ -19,6 +26,9 @@ public class UI {
 				fgColor[i][j] = 0; bgColor[i][j] = 0;
 			}
 		}
+
+		cursorX = (int) width / 2;
+		cursorY = (int) height / 2;
 	}
 
 	public static UI getNewUI(int height, int width) throws InstantiationException {
@@ -47,5 +57,16 @@ public class UI {
 				bg = bg != bgColor[i][j] ? bgColor[i][j] : bg;
 			}
 		}
+	}
+
+	public void getInput() {
+		try (InputStreamReader isr = new InputStreamReader(System.in);) {
+			char in = (char) isr.read();
+			switch (in) {
+			default:
+				return;
+			}
+		}
+		catch (IOException ioe) { System.out.println("IOException raised"); }
 	}
 }

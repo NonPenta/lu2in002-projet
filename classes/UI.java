@@ -37,7 +37,8 @@ public class UI {
 	}
 
 	public void printBuffer() {
-		int fg, bg = 0, 0;
+		int fg = 0;
+		int bg = 0;
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {

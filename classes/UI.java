@@ -33,6 +33,7 @@ public class UI {
 
 	public static UI getNewUI(int height, int width) throws InstantiationException {
 		if (isInstantiated) throw new InstantiationException("UI Already Instantiated");
+		isInstantiated = true;
 		return new UI(height, width);
 	}
 

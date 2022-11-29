@@ -13,14 +13,12 @@ digraph G {
 	Agent -> Organisme
 	Agent -> Vent
 
+	Ressource -> RessourceTerrain
 	Ressource -> RessourceFixe
 	Ressource -> RessourceDynamique
 
-	RessourceFixe -> Consommables
-	RessourceFixe -> NonConsommables
-
-	RessourceDynamique -> Champignon
-	RessourceDynamique -> MatiereBiologique
+	RessourceDynamique -> Consommable
+	RessourceDynamique -> NonConsommable
 	RessourceDynamique -> Bundle
 
 	edge [style=dashed arrowtail=empty]

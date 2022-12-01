@@ -14,7 +14,7 @@ digraph G {
 	Agent -> Vent
 
 	Ressource -> RessourceTerrain
-	Ressource -> RessourceFixe
+	Ressource -> RessourceStatique
 	Ressource -> RessourceDynamique
 
 	RessourceDynamique -> Consommable

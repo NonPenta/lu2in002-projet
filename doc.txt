@@ -8,10 +8,10 @@ Ressources :
 	- graminées | Ressource -> RessourceDynamique -> NonConsommables
 	- champignons | Ressource -> RessourceDynamique -> Consommable
 	- spores | champignons trop jeunes donc Ressource -> RessourceDynamique -> Consommable
-	- moisissures | Ressource -> RessourceFixe
+	- moisissures | Ressource -> RessourceStatique
 	- mat. bio. en décomposition | Ressource -> RessourceDynamique -> NonConsommables ; devient des moisissures pour pouvoir être consommée
-	- calcium | Ressource -> RessourceFixe
-	- graines | Ressource -> RessourceFixe
+	- calcium | Ressource -> RessourceStatique
+	- graines | Ressource -> RessourceStatique
 Élem. de terrain :
 	- charbon | Ressource -> RessourceTerrain
 	- substrat | Ressource -> RessourceTerrain

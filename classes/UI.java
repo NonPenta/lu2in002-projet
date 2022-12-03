@@ -1,19 +1,19 @@
 import java.io.*;
 
 public class UI {
-	static boolean isInstantiated = false;
+	private static boolean isInstantiated = false;
 
-	int height;
-	int width;
+	private int height;
+	private int width;
 
-	char[][] buffer;
-	int[][] fgColor;
-	int[][] bgColor;
+	private char[][] buffer;
+	private int[][] fgColor;
+	private int[][] bgColor;
 
-	int cursorX;
-	int cursorY;
+	private int cursorX;
+	private int cursorY;
 
-	Terrain t = new Terrain(20, 20);
+	private Terrain t = new Terrain(20, 20);
 
 	private UI(int height, int width) {
 		this.height = height;
@@ -53,10 +53,11 @@ public class UI {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				System.out.print(String.format("%s%s%c", fg != fgColor[i][j] || bg != bgColor[i][j] ? String.format("\033[%d%d", fgColor[i][j], bgColor[i][j]) : "", buffer[i][j]));
+				System.out.print(String.format("%s%c", fg != fgColor[i][j] || bg != bgColor[i][j] ? String.format("\033[%d;%dm", fgColor[i][j], bgColor[i][j]) : "", buffer[i][j]));
 				fg = fg != fgColor[i][j] ? fgColor[i][j] : fg;
 				bg = bg != bgColor[i][j] ? bgColor[i][j] : bg;
 			}
+			System.out.print("\n");
 		}
 	}
 

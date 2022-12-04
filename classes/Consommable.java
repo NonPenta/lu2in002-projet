@@ -1,7 +1,7 @@
 public class Consommable extends RessourceDynamique {
 	private int nSpores = 0;
 	// Champignons
-	// Spores
+	// Spore
 	public Consommable(String type, int quantite) {
 		super(type, quantite);
 	}

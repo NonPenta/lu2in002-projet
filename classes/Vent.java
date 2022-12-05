@@ -2,7 +2,7 @@ public class Vent extends Agent implements ForceEnvironnementale {
     private Vent(){}
 
     public void souffler(Bundle b, Terrain t){
-        for (Ressource r : b.ressources){
+        for (Ressource r : b.getList()){
             if (r.type == "Spore"){
                 int vitesse = (int)(Math.random()*(13-1+1)+1);         // Initialisation vitesse du vent entre 130kmh et 10 kmh divisé par 10
                 int newX = r.getX() + (int)(Math.random()*(vitesse-0+1)+0);       // Création du nouveau x entre 0 et la vitesse

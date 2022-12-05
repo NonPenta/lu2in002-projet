@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Bundle extends RessourceDynamique{
-	public ArrayList<Ressource> ressources;
+	private ArrayList<Ressource> ressources;
 	
 	public Bundle() {
 		super("Bundle", 1);
@@ -46,5 +46,9 @@ public class Bundle extends RessourceDynamique{
 				return;
 			}
 		}
+	}
+
+	public ArrayList<Ressource> getList(){
+		return ressources;
 	}
 }

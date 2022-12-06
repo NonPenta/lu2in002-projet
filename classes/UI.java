@@ -53,7 +53,7 @@ public class UI {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				System.out.print(String.format("%s%c", fg != fgColor[i][j] || bg != bgColor[i][j] ? String.format("\033[%d;%dm", fgColor[i][j], bgColor[i][j]) : "", buffer[i][j]));
+				System.out.print(String.format("%s%s%c", fg != fgColor[i][j] ? String.format("\033[38;5;%dm", fgColor[i][j]) : "", bg != bgColor[i][j] ? String.format("\033[48;5;%dm", bgColor[i][j]) : "", buffer[i][j]));
 				fg = fg != fgColor[i][j] ? fgColor[i][j] : fg;
 				bg = bg != bgColor[i][j] ? bgColor[i][j] : bg;
 			}

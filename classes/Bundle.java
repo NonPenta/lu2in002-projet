@@ -48,7 +48,12 @@ public class Bundle extends RessourceDynamique{
 		}
 	}
 
-	public ArrayList<Ressource> getList(){
-		return ressources;
+	public ArrayList<Ressource> ressources() {
+		ArrayList<Ressource> list = new ArrayList<>();
+		for (Ressource r : ressources) {
+			list.add(r);
+		}
+
+		return list;
 	}
 }

@@ -1,5 +1,7 @@
 public class Vent extends Agent implements ForceEnvironnementale {
-    private Vent(){}
+    private Vent(){
+        super("Vent");
+    }
 
     public void souffler(Bundle b, Terrain t){
         for (Ressource r : b.getList()){

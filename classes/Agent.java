@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class Agent {
-	private int x, y;
+	protected int x, y;
 	public final String type;
-	private String currentTask;
-	private HashMap<String, Integer> data;
+	protected String currentTask;
+	protected HashMap<String, Integer> data;
 
 	public Agent(String type) {
 		this.type = type;

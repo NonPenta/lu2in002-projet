@@ -3,4 +3,8 @@ public class Organisme extends Agent{
     // Isopodes
     // Serpents
     // Rats
+    public Organisme(String type){
+        super(type);
+    }    
+    
 }

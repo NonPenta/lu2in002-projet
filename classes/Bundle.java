@@ -1,59 +1,78 @@
 import java.util.ArrayList;
 
 public class Bundle extends RessourceDynamique{
-	private ArrayList<Ressource> ressources;
-	
+	private ArrayList<RessourceStatique> res_stat;
+	private ArrayList<RessourceDynamique> res_dyn;
+	private ArrayList<String> res_types;
+
 	public Bundle() {
 		super("Bundle", 1);
-		ressources = new ArrayList<Ressource>();
+		res_stat = new ArrayList<>();
+		res_dyn = new ArrayList<>();
+		res_types = new ArrayList<>();
 	}
 
 	public void addRessource(String type, int quantite) {
-		for (Ressource r : ressources) {
-			if (r.type == type) {
-				r.setQuantite(r.getQuantite() + quantite);
-				return;
-			}
-		}
+		boolean c = res_types.contains(type);
+		boolean s = isStatic(type);
 
-		switch (type) {
-			case "Graine":
-			case "Calcium":
-			case "Moisissure":
-				ressources.add(new RessourceStatique(type, quantite));
-				break;
-			case "Spore":
-			case "Champignon":
-				ressources.add(new Consommable(type, quantite));
-				break;
-			case "Graminee":
-			case "MatBio":
-				ressources.add(new NonConsommable(type, quantite));
-				break;
-			default:
-				break;
+		if (!c) {
+			res_types.add(type);
+			if (s) {
+				res_stat.add(new RessourceStatique(type, quantite));
+			} else {
+				res_dyn.add(new RessourceDynamique(type, quantite));
+			}
+		} else {
+			for (Ressource r : (s ? res_stat : res_dyn))
+				if (r.type == type)
+					r.setQuantite(r.getQuantite() + quantite);
 		}
 	}
 
 	public void removeRessource(String type, int quantite) {
+		if (res_types.contains(type)) return;
+		boolean s = isStatic(type);
 		Ressource r;
-		for (int i = 0; i < ressources.size(); i++) {
-			if ((r = ressources.get(i)).type == type) {
+
+		for (int i = 0; i < (s ? res_stat : res_dyn).size(); i++) {
+			if ((r = (s ? res_stat : res_dyn).get(i)).type == type) {
 				r.setQuantite(r.getQuantite() - quantite);
 				if (r.getQuantite() < 0) {
-					ressources.remove(i);
+					(s ? res_stat : res_dyn).remove(i);
 				}
 				return;
 			}
 		}
 	}
 
-	public ArrayList<Ressource> ressources() {
-		ArrayList<Ressource> list = new ArrayList<>();
-		for (Ressource r : ressources) {
-			list.add(r);
+	public ArrayList<String> res_contenues() {
+		ArrayList<String> list = new ArrayList<>();
+		for (String s : res_types) {
+			list.add(s);
 		}
 
 		return list;
+	}
+
+	public void tick(Terrain t) {
+		for (RessourceDynamique r : res_dyn)
+			r.tick(t, this);
+	}
+
+	public boolean isStatic(String type) {
+		switch (type) {
+			case "Graine":
+			case "Calcium":
+			case "Moisissure":
+				return true;
+			case "Spore":
+			case "Champignon":
+			case "Graminee":
+			case "MatBio":
+				return false;
+			default:
+				return false;
+		}
 	}
 }

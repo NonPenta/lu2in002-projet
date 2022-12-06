@@ -1,9 +1,13 @@
 public class RessourceTerrain extends Ressource {
-    // Charbon
-    // Substrat
-    // Décors   
+	Bundle b;
+	// Charbon
+	// Substrat
+	// Décors
+	public RessourceTerrain(String type) {
+		super(type,0);
+	}
 
-    public RessourceTerrain(final String type, final int quantite){
-        super(type,quantite);
-    }
+	public void tick(Terrain t) {
+		b.tick(t);
+	}
 }

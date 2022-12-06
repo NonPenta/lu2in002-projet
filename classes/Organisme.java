@@ -6,4 +6,5 @@ public class Organisme extends Agent{
     public Organisme(String type){
         super(type);
     }    
+    
 }

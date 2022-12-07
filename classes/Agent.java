@@ -3,15 +3,11 @@ import java.util.*;
 public class Agent {
 	protected int x, y;
 	public final String type;
-	protected String currentTask;
-	protected HashMap<String, Integer> data;
 
 	public Agent(String type) {
 		this.type = type;
 		x = -1;
 		y = -1;
-		currentTask = "";
-		data = new HashMap<>();
 	}
 	public int distance(int x_, int y_) {
 		int dx, dy;

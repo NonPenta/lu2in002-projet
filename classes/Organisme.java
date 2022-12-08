@@ -94,7 +94,7 @@ public class Organisme extends Agent{
 
 		switch (priority) {
 			case "rest":
-				return canRest(t.getCase(y, x), ol) ? "rest" : "restFindSpot";
+				return canRest(t.getCase((int) y, (int) x), ol) ? "rest" : "restFindSpot";
 			case "food":
 				if (!(data.containsKey("targetXGatherFood"))) {
 					return "locateFood";
@@ -125,20 +125,67 @@ public class Organisme extends Agent{
 		return "rest";
 	}
 
-	public void act(Terrain t) {
+	public void act(Terrain t, boolean casesLibres[][]) {
+		// 0.03 d'énergie dépensée / frame si agissant ; 0.01 si se reposant      0.003 ; 0.001 pour le serpent
+		double Δe = .03 / ((type == "Serpent") ? 10 : 1);
+		double δe = .01 / ((type == "Serpent") ? 10 : 1);
+		// 1.5 d'énergie / nourriture ; obtenue a un rythme de 0.15/f si au repos ou 0.06/f si en action
+		double Δf = .15;
+		double δf = .06;
+		// en action : dépense de 0.01 repos / frame      0.03 pour le serpent
+		// au repos : gain de 0.03 repos / frame          0.015 pour le serpent
+		double Δr = .01 * ((type == "Serpent") ? 3 : 1);
+		double δr = .03 / ((type == "Serpent") ? 2 : 1);
 		switch (currentTask) {
+			case "locateFood":
+				break;
+			case "getToFood":
+				break;
+			case "rest":
+				data.merge("Energy", (data.get("FoodInSystem") > 0.1 ? 0.15 : 0.0 )-0.01, (v, δ) -> v + δ); // MàJ stat energie
+				data.merge("FoodInSystem", (data.get("FoodInSystem") > 0.1 ? - 0.15 : 0.0 )-0.01, (v, δ) -> v + δ); // MàJ stat nourriture
+				break;
+			case "restFindSpot":
+				break;
+			case "shareFood":
+				break;
+			case "reproduceGatherEnergy":
+				break;
+			case "reproduce":
+				break;
+			case "locateCa":
+				break;
+			case "getToCa":
+				break;
+			case "moult":
+				break;
 			default:
 				break;
 		}
 	}
 
-	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
-		for (Organisme o : ol){
-			if ((o.x == this.x) && (o.y == this.y)){
-				return false;
+	public boolean caseLibre(int x, int y, ArrayList<Organisme> ol) {
+		int n = 0;
+		for (Organisme o : ol) {
+			if (o.distance(x, y) < 1) {
+				if (o.currentTask == "rest" || o.currentTask == "moult" || o.currentTask == "reproduce") {
+					if (o.type == "Collembole" || o.type == "Isopode") {
+						n++;
+					} else { return false; }
+				}
 			}
 		}
+		return n <= 5;
+	}
 
-		return true;
+	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
+		switch (type) {
+			case "Collembole":
+				if (r.type != "Charbon") { return false; }
+			case "Isopode":
+				if (r.type != "Decor" && type == "Isopode") { return false; }
+			default:
+				return caseLibre(r.getX(), r.getY(), ol);
+		}
 	}
 }

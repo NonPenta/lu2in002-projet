@@ -10,20 +10,13 @@ public class Agent {
 		y = -1;
 	}
 	public double distance(int _x, int _y) {
-		double x_ = (float) x;
-		double y_ = (float) y;
+		double x_ = (double) x;
+		double y_ = (double) y;
 		double dx, dy;
 		return (dx = x - x_) * (dx < 0 ? -1 : 1) + (dy = y - y_) * (dy < 0 ? -1 : 1);
 	}
 
-	public int seDeplacer(int nx, int ny, ArrayList<Agent> al) {
-		for (Agent a : al) {
-			if (a.distance(nx, ny) == 0) {
-				return 1;
-			}
-		}
-
+	public void seDeplacer(int nx, int ny) {
 		x = nx; y = ny;
-		return 0;
 	}
 }

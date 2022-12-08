@@ -10,7 +10,18 @@ public class Organisme extends Agent{
 	// Serpents : {"Ca" : double, "FoodInSystem" : double, "Energy" : double, "Rest" : double, "Age" : double}
 	// Rats : {"FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double, "foodGiver" : double}
 
-	// targetXLocate[Food,Ca,Partner], targetYLocate[Food,Ca,Partner], targetXGather[Food,Ca], targetYGather[Food,Ca], targetXPartner, targetYPartner seront ajoutés & enlevés par la fonction de choix d'action et d'action des organismes
+	// targetXLocate[Food,Ca], targetYLocate[Food,Ca], targetXGather[Food,Ca], targetYGather[Food,Ca] seront ajoutés & enlevés par la fonction de choix d'action et d'action des organismes
+	// idem pour reproduceTimer et moultTimer
+
+	double δe = -.01 / ((type == "Serpent") ? 10 : 1);
+	double Δe = -.03 / ((type == "Serpent") ? 10 : 1);
+	// 0.03 d'énergie dépensée / frame si agissant ; 0.01 si se reposant      0.003 ; 0.001 pour le serpent
+	double δf = .15;
+	double Δf = .06;
+	// 1.5 d'énergie / nourriture ; obtenue a un rythme de 0.15/f si au repos ou 0.06/f si en action
+	double δr = .03 / ((type == "Serpent") ? 2 : 1);
+	double Δr = -.01 * ((type == "Serpent") ? 3 : 1);
+	// 0.03 repos obtenu / frame si se reposant ; 0.01 dépensé si agissant  0.015 ; 0.03 pour le serpent
 
 	public Organisme(String type) {
 		super(type);
@@ -46,6 +57,8 @@ public class Organisme extends Agent{
 	}
 
 	public String nextTask(Terrain t, ArrayList<Organisme> ol) {
+		// Actions ne pouvant être stoppées que par la mort ou leur terminaison : reproduction et mue
+
 		// Assurer la survie de l'agent ; soit répondre aux besoins en énergie & repos
 
 		// Même système pour tous les organismes, valeurs modifiées pour le serpent
@@ -56,23 +69,21 @@ public class Organisme extends Agent{
 		// Distance moyenne depuis un côté : 20
 		// Distance moyenne d'un aller-retour : 40
 		// Vitesse de déplacement : 3 / s -> .125 / f
-		// Energie moyenne consommée par un aller-retour : 40 * 8 * 0.03 = 9.6
-		// Energie moyenne obtenue d'un aller-retour : 3 AR = 3 * 9.6 = 28.8
-		// Nourriture moyenne obtenue d'un aller-retour : 28.8 / 1.5 = 19.2
 		//
-		// Condition de survie : tjs > un aller-retour en réserve
 		// => Condition de recherche de nourriture : energie + nourriture * 1.5 < 9.6 * 1.5 => energie + 1.5 * nourriture < 14.4
 		// Condition d'arrêt de la recherche de nourriture : energie + nourriture * 1.5 > 43.2
 
 		// Repos :
 		// en action : dépense de 0.01 repos / frame      0.03 pour le serpent
 		// au repos : gain de 0.03 repos / frame          0.015 pour le serpent
-		// coût en repos d'un aller-retour : 320 * .01 = 3.2
 		// Condition de repos : repos < 4.8
 		// Condition d'arrêt du repos : repos > 14.4
 
 		// La priorité d'un besoin vital est 1 - valeur/max
 		// Elle sert à déterminer la priorité entre deux actions urgentes
+
+		if (data.containsKey("reproduceTimeElapsed")) return "reproduce";
+		if (data.containsKey("moultTimeElapsed")) return "moult";
 
 		double potEnergy = data.get("Energy") + data.get("FoodInSystem") * 1.5;
 
@@ -85,8 +96,8 @@ public class Organisme extends Agent{
 		String priority = (rest_u || food_u) ? (food_p >= rest_p ? "food" : "rest") : "other";
 
 		if (priority == "other") {
-			boolean actionDone = ((currentTask == "rest" || currentTask == "restFindSpot") && data.get("Rest") > 14.4) ||
-										((currentTask == "locateFood" || currentTask == "getToFood") && potEnergy > 43.2);
+			boolean actionDone = ((currentTask != "rest" && currentTask != "restFindSpot") || data.get("Rest") > 14.4) &&
+										((currentTask != "locateFood" || currentTask != "getToFood") || potEnergy > 43.2);
 			if (!actionDone) {
 				priority = (currentTask == "rest" || currentTask == "restFindSpot") ? "rest" : "food";
 			}
@@ -113,7 +124,7 @@ public class Organisme extends Agent{
 					case "Collembole":
 						if (data.containsKey("TSLR")) {
 							if (data.get("TSLR") < 720) {
-								return data.get("foodGiver") >  0 ? "shareFood" : (potEnergy > 64.8 ? "reproduce" : "rest");
+								return data.get("foodGiver") >  0 ? "shareFood" : (potEnergy > 64.8 ? "reproduce" : "reproduceGatherEnergy");
 							}
 						}
 						break;
@@ -125,40 +136,49 @@ public class Organisme extends Agent{
 		return "rest";
 	}
 
-	public void act(Terrain t, boolean casesLibres[][]) {
-		// 0.03 d'énergie dépensée / frame si agissant ; 0.01 si se reposant      0.003 ; 0.001 pour le serpent
-		double Δe = .03 / ((type == "Serpent") ? 10 : 1);
-		double δe = .01 / ((type == "Serpent") ? 10 : 1);
-		// 1.5 d'énergie / nourriture ; obtenue a un rythme de 0.15/f si au repos ou 0.06/f si en action
-		double Δf = .15;
-		double δf = .06;
-		// en action : dépense de 0.01 repos / frame      0.03 pour le serpent
-		// au repos : gain de 0.03 repos / frame          0.015 pour le serpent
-		double Δr = .01 * ((type == "Serpent") ? 3 : 1);
-		double δr = .03 / ((type == "Serpent") ? 2 : 1);
+	public void act(Terrain t, boolean casesLibres[][], ArrayList<Organisme> ol) {
 		switch (currentTask) {
 			case "locateFood":
-				break;
+				break; // TODO
 			case "getToFood":
-				break;
+				break; // TODO
+			case "reproduceGatherEnergy":
 			case "rest":
-				data.merge("Energy", (data.get("FoodInSystem") > 0.1 ? 0.15 : 0.0 )-0.01, (v, δ) -> v + δ); // MàJ stat energie
-				data.merge("FoodInSystem", (data.get("FoodInSystem") > 0.1 ? - 0.15 : 0.0 )-0.01, (v, δ) -> v + δ); // MàJ stat nourriture
+				data.merge("Energy", (data.get("FoodInSystem") > 0.1 ? δf : 0.0 ) - δe, (v, δ) -> v + δ); // MàJ stat energie
+				data.merge("FoodInSystem", (data.get("FoodInSystem") > 0.1 ? - 0.1 : 0.0 ), (v, δ) -> v + δ); // MàJ stat nourriture
+				data.merge("Rest", δr, (v, δ) -> v + δ); // MàJ stat repos
 				break;
 			case "restFindSpot":
 				break;
 			case "shareFood":
-				break;
-			case "reproduceGatherEnergy":
+				for (Organisme o : ol) {
+					if (o.currentTask == "reproduceGatherEnergy" && o.data.get("FoodInSystem") * 1.5 + o.data.get("Energy") < 64.8) {
+						o.data.merge("FoodInSystem", 9.6, (v, d) -> v + d);
+						data.merge("FoodInSystem", -9.6, (v, d) -> v + d);
+						break;
+					}
+				}
 				break;
 			case "reproduce":
+				if (!data.containsKey("reproduceTimeElapsed")) {
+					data.put("reproduceTimeElapsed", 0.0);
+				} else if (data.get("reproduceTimeElapsed") < 480) { data.merge("reproduceTimeElapsed", 1.0, (v, d) -> v + d);
+				} else {
+					data.remove("reproduceTimeElapsed");
+					Organisme no = new Organisme(type);
+					no.seDeplacer((int) x, (int) y);
+					ol.add(no);
+				}
+				data.merge("Energy", (data.get("FoodInSystem") > .1 ? δf : 0.0 ) - Δe, (v, Δ) -> v + Δ); // MàJ stat energie
+				data.merge("FoodInSystem", (data.get("FoodInSystem") > 0.04 ? - 0.1 : 0.0 ), (v, Δ) -> v + Δ); // MàJ stat nourriture
+				data.merge("Rest", Δr, (v, Δ) -> v + Δ); // MàJ stat repos
 				break;
 			case "locateCa":
-				break;
+				break; // TODO
 			case "getToCa":
-				break;
+				break; // TODO
 			case "moult":
-				break;
+				break; // TODO
 			default:
 				break;
 		}

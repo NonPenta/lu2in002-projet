@@ -25,7 +25,7 @@ public class Organisme extends Agent{
 				data.put("Energy", 10.0);
 				data.put("TSLR", 0.0);
 				data.put("Rest", 0.0);
-				break;
+				break;	
 			case "Serpent":
 				data.put("Ca", 50.0);
 				data.put("FoodInSystem", 100.0);
@@ -126,6 +126,15 @@ public class Organisme extends Agent{
 	}
 
 	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
+		for (Organisme o : ol){
+			if ((o.x == this.x) && (o.y == this.y)){
+				return false;
+			}
+		}
+		
+		if (r.type == "Champignon"){
+			return 
+		}
 		return true; // TODO
 	}
 }

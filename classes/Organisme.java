@@ -5,12 +5,12 @@ public class Organisme extends Agent{
 	// Tasks : locateFood, getToFood, rest, [restFindSpot, shareFood, reproduceGatherEnergy, reproduce, locateCa, getToCa, moult]
 	protected HashMap<String, Double> data;
 	// type : data
-	// Collemboles : {"FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double}
-	// Isopodes : {"Ca" : double, "FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double}
+	// Collemboles : {"FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double, "foodGiver" : double}
+	// Isopodes : {"Ca" : double, "FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double, "foodGiver" : double}
 	// Serpents : {"Ca" : double, "FoodInSystem" : double, "Energy" : double, "Rest" : double, "Age" : double}
-	// Rats : {"FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double}
+	// Rats : {"FoodInSystem" : double, "Energy" : double, "TSLR" : double, "Rest" : double, "Age" : double, "foodGiver" : double}
 
-	// targetXLocate, targetYLocate, targetXGather, targetYGather seront ajoutés & enlevés par la fonction de choix d'action et d'action des organismes
+	// targetXLocate[Food,Ca,Partner], targetYLocate[Food,Ca,Partner], targetXGather[Food,Ca], targetYGather[Food,Ca], targetXPartner, targetYPartner seront ajoutés & enlevés par la fonction de choix d'action et d'action des organismes
 
 	public Organisme(String type) {
 		super(type);
@@ -19,20 +19,22 @@ public class Organisme extends Agent{
 		data.put("Age", 0.0);
 		switch (type) {
 			case "Isopode":
-				data.put("Ca", 5.0);
+				data.put("Ca", 0.0);
 			case "Collembole":
+				data.put("foodGiver", Math.random() - 0.5);
 				data.put("FoodInSystem", 10.0);
 				data.put("Energy", 10.0);
 				data.put("TSLR", 0.0);
 				data.put("Rest", 0.0);
 				break;	
 			case "Serpent":
-				data.put("Ca", 50.0);
+				data.put("Ca", 0.0);
 				data.put("FoodInSystem", 100.0);
 				data.put("Energy", 100.0);
 				data.put("Rest", 0.0);
 				break;
 			case "Rat":
+				data.put("foodGiver", Math.random() - 0.5);
 				data.put("FoodInSystem", 20.0);
 				data.put("Energy", 20.0);
 				data.put("TSLR", 0.0);
@@ -71,6 +73,7 @@ public class Organisme extends Agent{
 
 		// La priorité d'un besoin vital est 1 - valeur/max
 		// Elle sert à déterminer la priorité entre deux actions urgentes
+
 		double potEnergy = data.get("Energy") + data.get("FoodInSystem") * 1.5;
 
 		boolean rest_u = data.get("Rest") < 4.8;
@@ -108,14 +111,18 @@ public class Organisme extends Agent{
 						}
 					case "Rat":
 					case "Collembole":
-						// TODO : reproduction
+						if (data.containsKey("TSLR")) {
+							if (data.get("TSLR") < 720) {
+								return data.get("foodGiver") >  0 ? "shareFood" : (potEnergy > 64.8 ? "reproduce" : "rest");
+							}
+						}
 						break;
 				}
 				break;
 			default:
 				break;
 		}
-		return "";
+		return "rest";
 	}
 
 	public void act(Terrain t) {
@@ -131,10 +138,7 @@ public class Organisme extends Agent{
 				return false;
 			}
 		}
-		
-		if (r.type == "Champignon"){
-			return 
-		}
-		return true; // TODO
+
+		return true;
 	}
 }

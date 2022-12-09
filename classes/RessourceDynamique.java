@@ -6,7 +6,7 @@ public class RessourceDynamique extends Ressource {
 	// Champignons, Graminees, MatBio
 	private int age;
 	private int nProduit; // Graines & Spores
-	
+
 	/**
 	 * 
 	 * @param type
@@ -18,13 +18,16 @@ public class RessourceDynamique extends Ressource {
 	}
 
 	/**
-	 * 
-	 * @return L'age de la ressource
+	 * Permet de connaître l'âge d'une ressource dynamique
+	 * @return l'age de cette ressource
 	 */
 	public int getAge() { return age; }
 
 	/**
-	 * 
+	 * Permet de fait vieillir la ressource dynamique puis :
+	 * - Dans le cas d'un champignon, s'il a 5 ans, on ajoute un spore à nProduit
+	 * - Dans le cas d'une MatBio, on la retire du bundle et on crée une moisissure
+	 * - Dans le cas d'un graminee
 	 * @param t
 	 * @param b
 	 */

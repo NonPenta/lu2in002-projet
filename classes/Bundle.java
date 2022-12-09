@@ -110,43 +110,18 @@ public class Bundle extends RessourceDynamique{
 		}
 	}
 
-	public boolean contains(String s){
-		if (isStatic(s)){
-			for (Ressource r : res_stat){
-				if (r.type == s){
-					return true;
-				}
-			}
-		}
-		else{
-			for (Ressource r : res_dyn){
-				if (r.type == s){
-					return true;
-				}
-			}
-		}
-		return false;
+	public boolean contains(String type) {
+		return res_types.contains(type);
 	}
 
-	public int count(String s){
-		int res = 0;
-		if (!(contains (s))){
+	public int count(String type) {
+		if (!(contains(type))){
 			return 0;
 		}
-		if(isStatic(s)){
-			for (Ressource r : res_stat){
-				if (r.type == s){
-					res++;
-				}
+		for (Ressource r : (isStatic(type) ? res_stat : res_dyn)){
+			if (r.type == s){
+				return r.getQuantite();
 			}
 		}
-		else{
-			for (Ressource r : res_dyn){
-				if (r.type == s){
-					res++;
-				}
-			}
-		}
-		return res;
 	}
 }

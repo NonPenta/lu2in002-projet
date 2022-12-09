@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class Agent {
+public abstract class Agent {
 	protected double x, y;
 	public final String type;
 
-	public Agent(String type) {
+	protected Agent(String type) {
 		this.type = type;
 		x = -1;
 		y = -1;

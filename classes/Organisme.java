@@ -17,14 +17,14 @@ public class Organisme extends Agent{
 	// targetXLocate[Food,Ca], targetYLocate[Food,Ca], targetXGather[Food,Ca], targetYGather[Food,Ca] seront ajoutés & enlevés par la fonction de choix d'action et d'action des organismes
 	// idem pour reproduceTimer et moultTimer
 
-	double δe = -.01 / ((type == "Serpent") ? 10 : 1);
-	double Δe = -.03 / ((type == "Serpent") ? 10 : 1);
+	private final double δe = -.01 / ((type == "Serpent") ? 10 : 1);
+	private final double Δe = -.03 / ((type == "Serpent") ? 10 : 1);
 	// 0.03 d'énergie dépensée / frame si agissant ; 0.01 si se reposant      0.003 ; 0.001 pour le serpent
-	double δf = .15;
-	double Δf = .06;
+	private final double δf = .15;
+	private final double Δf = .06;
 	// 1.5 d'énergie / nourriture ; obtenue a un rythme de 0.15/f si au repos ou 0.06/f si en action
-	double δr = .03 / ((type == "Serpent") ? 2 : 1);
-	double Δr = -.01 * ((type == "Serpent") ? 3 : 1);
+	private final double δr = .03 / ((type == "Serpent") ? 2 : 1);
+	private final double Δr = -.01 * ((type == "Serpent") ? 3 : 1);
 	// 0.03 repos obtenu / frame si se reposant ; 0.01 dépensé si agissant  0.015 ; 0.03 pour le serpent
 
 	/**
@@ -156,20 +156,58 @@ public class Organisme extends Agent{
 	 * @param casesLibres
 	 * @param ol
 	 */
-	public void act(Terrain t, boolean casesLibres[][], ArrayList<Organisme> ol) {
+	public void act(Terrain t, ArrayList<Organisme> ol) {
 		switch (currentTask) {
 			case "locateFood":
-				Ressource target;
-				for (int i = (int) x - 5; i < (int) x + 5; i++) {
-					for (int j = (int) y - 5; j < (int) y + 5; i++) {
-						if (t.getCase(j, i).count("Champignons") > 5 || t.getCase(j, i).count("Moisissure") > 0) {
-							;
+				int d;
+				// si : target
+				if (data.contains("targetXLocateFood")) {
+				// 	-> avancer vers la target
+						x += 0.125 * (data.get("targetXLocateFood") - x > 0 ? 1 : -1);
+						y += 0.125 * (data.get("targetYLocateFood") - y > 0 ? 1 : -1);
+						d = (int) distance(data.get("targetXLocateFood"), data.get("targetYLocateFood"));
+						// Si target atteinte : nouvelle target
+						if (d == 0) {
+							data.put("targetXLocateFood", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+							data.put("targetYLocateFood", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+						}
+					}
+				// si : pas target
+				} else {
+				// 	-> créer target
+					data.put("targetXLocateFood", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+					data.put("targetYLocateFood", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+					d = 39;
+				}
+				// 	-> check tout autour de soi ; rayon de 5 cases
+				for (int i = (int) x - 5; i <= (int) x + 5; i++) {
+					for (int j = (int) y - 5; j <= (int) y + 5; i++) {
+						if ((t.getCase(j, i).count("Champignons") > 5 || t.getCase(j, i).count("Moisissure") > 0) && distance(i, j) < d) {
+							if (data.containsKey("targetXLocateFood")) {
+								data.remove("targetXLocateFood");
+								data.remove("targetYLocateFood");
+							}
+							data.put("targetXGatherFood", i);
+							data.put("targetYGatherFood", j);
+							d = (int) distance(i, j);
 						}
 					}
 				}
-				break; // TODO
+				break;
 			case "getToFood":
-				break; // TODO
+				x += 0.125 * (data.get("targetXGatherFood") - x > 0 ? 1 : -1);
+				y += 0.125 * (data.get("targetYGatherFood") - y > 0 ? 1 : -1);
+				d = (int) distance(data.get("targetXGatherFood"), data.get("targetYGatherFood"));
+				for (int i = (int) x - 5; i <= (int) x + 5; i++) {
+					for (int j = (int) y - 5; j <= (int) y + 5; i++) {
+						if ((t.getCase(j, i).count("Champignons") > 5 || t.getCase(j, i).count("Moisissure") > 0) && distance(i, j) < d) {
+							data.put("targetXGatherFood", i);
+							data.put("targetYGatherFood", j);
+							d = (int) distance(i, j);
+						}
+					}
+				}
+				break;
 			case "reproduceGatherEnergy":
 			case "rest":
 				data.merge("Energy", (data.get("FoodInSystem") > 0.1 ? δf : 0.0 ) - δe, (v, δ) -> v + δ); // MàJ stat energie
@@ -202,6 +240,41 @@ public class Organisme extends Agent{
 				data.merge("Rest", Δr, (v, Δ) -> v + Δ); // MàJ stat repos
 				break;
 			case "locateCa":
+				int d;
+				// si : target
+				if (data.contains("targetXLocateCa")) {
+				// 	-> avancer vers la target
+						x += 0.125 * (data.get("targetXLocateCa") - x > 0 ? 1 : -1);
+						y += 0.125 * (data.get("targetYLocateCa") - y > 0 ? 1 : -1);
+						d = (int) distance(data.get("targetXLocateCa"), data.get("targetYLocateCa"));
+						// Si target atteinte : nouvelle target
+						if (d == 0) {
+							data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+							data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+						}
+					}
+				// si : pas target
+				} else {
+				// 	-> créer target
+					data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+					data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+					d = 39;
+				}
+				// 	-> check tout autour de soi ; rayon de 5 cases
+				for (int i = (int) x - 5; i <= (int) x + 5; i++) {
+					for (int j = (int) y - 5; j <= (int) y + 5; i++) {
+						if (t.getCase(j, i).count("Ca") > 0 && distance(i, j) < d) {
+							if (data.containsKey("targetXLocateCa")) {
+								data.remove("targetXLocateCa");
+								data.remove("targetYLocateCa");
+							}
+							data.put("targetXGatherCa", i);
+							data.put("targetYGatherCa", j);
+							d = (int) distance(i, j);
+						}
+					}
+				}
+				break;
 				break; // TODO
 			case "getToCa":
 				break; // TODO

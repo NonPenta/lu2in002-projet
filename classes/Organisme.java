@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+ * @author BERNARD Victor
+ * @author PIRON-PALLISER Maximilien
+ */
 public class Organisme extends Agent{
 	protected String currentTask;
 	// Tasks : locateFood, getToFood, rest, [restFindSpot, shareFood, reproduceGatherEnergy, reproduce, locateCa, getToCa, moult]
@@ -23,6 +27,10 @@ public class Organisme extends Agent{
 	double Δr = -.01 * ((type == "Serpent") ? 3 : 1);
 	// 0.03 repos obtenu / frame si se reposant ; 0.01 dépensé si agissant  0.015 ; 0.03 pour le serpent
 
+	/**
+	 * 
+	 * @param type
+	 */
 	public Organisme(String type) {
 		super(type);
 		currentTask = "rest";
@@ -55,7 +63,13 @@ public class Organisme extends Agent{
 				break;
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param t
+	 * @param ol
+	 * @return
+	 */
 	public String nextTask(Terrain t, ArrayList<Organisme> ol) {
 		// Actions ne pouvant être stoppées que par la mort ou leur terminaison : reproduction et mue
 
@@ -136,6 +150,12 @@ public class Organisme extends Agent{
 		return "rest";
 	}
 
+	/**
+	 * 
+	 * @param t
+	 * @param casesLibres
+	 * @param ol
+	 */
 	public void act(Terrain t, boolean casesLibres[][], ArrayList<Organisme> ol) {
 		switch (currentTask) {
 			case "locateFood":
@@ -192,6 +212,13 @@ public class Organisme extends Agent{
 		}
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param ol
+	 * @return
+	 */
 	public boolean caseLibre(int x, int y, ArrayList<Organisme> ol) {
 		int n = 0;
 		for (Organisme o : ol) {
@@ -206,6 +233,12 @@ public class Organisme extends Agent{
 		return n <= 5;
 	}
 
+	/**
+	 * 
+	 * @param r
+	 * @param ol
+	 * @return
+	 */
 	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
 		switch (type) {
 			case "Collembole":

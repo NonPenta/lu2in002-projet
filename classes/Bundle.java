@@ -1,10 +1,17 @@
 import java.util.ArrayList;
 
+/**
+ * @author BERNARD Victor
+ * @author PIRON-PALLISER Maximilien
+ */
 public class Bundle extends RessourceDynamique{
 	private ArrayList<RessourceStatique> res_stat;
 	private ArrayList<RessourceDynamique> res_dyn;
 	private ArrayList<String> res_types;
 
+	/** 
+	* 
+	*/
 	public Bundle() {
 		super("Bundle", 1);
 		res_stat = new ArrayList<>();
@@ -12,6 +19,11 @@ public class Bundle extends RessourceDynamique{
 		res_types = new ArrayList<>();
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param quantite
+	 */
 	public void addRessource(String type, int quantite) {
 		boolean c = res_types.contains(type);
 		boolean s = isStatic(type);
@@ -30,6 +42,11 @@ public class Bundle extends RessourceDynamique{
 		}
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param quantite
+	 */
 	public void removeRessource(String type, int quantite) {
 		if (res_types.contains(type)) return;
 		boolean s = isStatic(type);
@@ -46,6 +63,10 @@ public class Bundle extends RessourceDynamique{
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> res_contenues() {
 		ArrayList<String> list = new ArrayList<>();
 		for (String s : res_types) {
@@ -55,11 +76,20 @@ public class Bundle extends RessourceDynamique{
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param t
+	 */
 	public void tick(Terrain t) {
 		for (RessourceDynamique r : res_dyn)
 			r.tick(t, this);
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public boolean isStatic(String type) {
 		switch (type) {
 			case "Graine":

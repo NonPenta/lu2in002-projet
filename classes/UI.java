@@ -1,5 +1,8 @@
 import java.io.*;
 
+/**
+ * @author BERNARD Victor
+ */
 public class UI {
 	private static boolean isInstantiated = false;
 

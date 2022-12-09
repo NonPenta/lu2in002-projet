@@ -73,7 +73,7 @@ public class Organisme extends Agent {
 	}
 	
 	/**
-	 *
+	 * Cherche quelle tâche un Organisme doit effectuer
 	 * @param t
 	 * @param ol
 	 * @return la prochaine tâche à effectuer

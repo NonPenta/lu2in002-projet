@@ -11,6 +11,7 @@ public class Vent extends Agent implements ForceEnvironnementale {
 	}
 
 	/**
+	 * Permet dans le terrain, si une ressource est sur un case (que la case n'est pas null), d'appliquer agir, sur la ressource présente dans cette case 
 	 * @param t
 	 * @param f
 	 */
@@ -27,6 +28,7 @@ public class Vent extends Agent implements ForceEnvironnementale {
 	}
 
 	/**
+	 * Permet de faire bouger la ressource, en fonction de la vitesse du vent, jusqu'à une case (newX,newY)
 	 * @param r
 	 * @param t
 	 */
@@ -41,5 +43,9 @@ public class Vent extends Agent implements ForceEnvironnementale {
 			}
 		t.setCase(r.getX()+newX,r.getY()+newY,r);
 		}
+	}
+
+	public void seDeplacer(int x_, int y_) {
+		return;
 	}
 }

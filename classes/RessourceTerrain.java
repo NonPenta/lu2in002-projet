@@ -10,7 +10,6 @@ public class RessourceTerrain extends Ressource {
 	// Décors
 
 	/**
-	 * 
 	 * @param type
 	 */
 	public RessourceTerrain(String type) {
@@ -18,7 +17,7 @@ public class RessourceTerrain extends Ressource {
 	}
 
 	/**
-	 * 
+	 * Applique tick au bundle b 
 	 * @param t
 	 */
 	public void tick(Terrain t) {

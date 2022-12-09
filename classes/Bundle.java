@@ -20,7 +20,11 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * 
+	 * Permet d'ajouter une nouvelle ressource dans les listes créées,
+	 * Ajout dans res_stat en cas de ressource Statique
+	 * Ajout dans res_dyn en cas de ressource dynamique
+	 * Si ce type de ressource existe déjà dans la liste res_types
+	 * 	on ajoute 1 à la quantité de cette ressource. 
 	 * @param type
 	 * @param quantite
 	 */
@@ -43,7 +47,8 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * 
+	 * Permet de, si elle est contenu dans une des listes, 
+	 * retirer la ressource de la liste dans laquelle elle est contenue
 	 * @param type
 	 * @param quantite
 	 */
@@ -64,8 +69,8 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Permet de reccupérer une nouvelle liste contenant les types des ressources contenus dans res_stat et res_dyn à partir de res_type.
+	 * @return La liste de tous les types de Ressource contenus dans res_types
 	 */
 	public ArrayList<String> res_contenues() {
 		ArrayList<String> list = new ArrayList<>();
@@ -77,7 +82,7 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * 
+	 * Permet d'appliquer un tick sur toutes les ressources dynamiques contenues dans res_dyn
 	 * @param t
 	 */
 	public void tick(Terrain t) {
@@ -86,9 +91,9 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * 
+	 * Permet de savoir si une ressource est statique (sinon, dynamique)
 	 * @param type
-	 * @return
+	 * @return Renvoie true si la ressource est statique, false sinon
 	 */
 	public boolean isStatic(String type) {
 		switch (type) {

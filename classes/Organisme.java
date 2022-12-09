@@ -4,7 +4,7 @@ import java.util.*;
  * @author BERNARD Victor
  * @author PIRON-PALLISER Maximilien
  */
-public class Organisme extends Agent{
+public class Organisme extends Agent {
 	protected String currentTask;
 	// Tasks : locateFood, getToFood, rest, [restFindSpot, shareFood, reproduceGatherEnergy, reproduce, locateCa, getToCa, moult]
 	protected HashMap<String, Double> data;
@@ -65,10 +65,10 @@ public class Organisme extends Agent{
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param t
 	 * @param ol
-	 * @return
+	 * @return la prochaine tâche à effectuer
 	 */
 	public String nextTask(Terrain t, ArrayList<Organisme> ol) {
 		// Actions ne pouvant être stoppées que par la mort ou leur terminaison : reproduction et mue
@@ -151,7 +151,7 @@ public class Organisme extends Agent{
 	}
 
 	/**
-	 * 
+	 * Fait agir l'organisme 
 	 * @param t
 	 * @param casesLibres
 	 * @param ol
@@ -162,19 +162,18 @@ public class Organisme extends Agent{
 				int d;
 				// si : target
 				if (data.contains("targetXLocateFood")) {
-				// 	-> avancer vers la target
-						x += 0.125 * (data.get("targetXLocateFood") - x > 0 ? 1 : -1);
-						y += 0.125 * (data.get("targetYLocateFood") - y > 0 ? 1 : -1);
-						d = (int) distance(data.get("targetXLocateFood"), data.get("targetYLocateFood"));
-						// Si target atteinte : nouvelle target
-						if (d == 0) {
-							data.put("targetXLocateFood", (int) (x + (Math.random * 10 - 5) + 20) % 20);
-							data.put("targetYLocateFood", (int) (y + (Math.random * 10 - 5) + 20) % 20);
-						}
+					// -> avancer vers la target
+					x += 0.125 * (data.get("targetXLocateFood") - x > 0 ? 1 : -1);
+					y += 0.125 * (data.get("targetYLocateFood") - y > 0 ? 1 : -1);
+					d = (int) distance(data.get("targetXLocateFood"), data.get("targetYLocateFood"));
+					// Si target atteinte : nouvelle target
+					if (d == 0) {
+						data.put("targetXLocateFood", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+						data.put("targetYLocateFood", (int) (y + (Math.random * 10 - 5) + 20) % 20);
 					}
 				// si : pas target
 				} else {
-				// 	-> créer target
+				// -> créer target
 					data.put("targetXLocateFood", (int) (x + (Math.random * 10 - 5) + 20) % 20);
 					data.put("targetYLocateFood", (int) (y + (Math.random * 10 - 5) + 20) % 20);
 					d = 39;
@@ -243,24 +242,23 @@ public class Organisme extends Agent{
 				int d;
 				// si : target
 				if (data.contains("targetXLocateCa")) {
-				// 	-> avancer vers la target
-						x += 0.125 * (data.get("targetXLocateCa") - x > 0 ? 1 : -1);
-						y += 0.125 * (data.get("targetYLocateCa") - y > 0 ? 1 : -1);
-						d = (int) distance(data.get("targetXLocateCa"), data.get("targetYLocateCa"));
-						// Si target atteinte : nouvelle target
-						if (d == 0) {
-							data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
-							data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
-						}
+					// -> avancer vers la target
+					x += 0.125 * (data.get("targetXLocateCa") - x > 0 ? 1 : -1);
+					y += 0.125 * (data.get("targetYLocateCa") - y > 0 ? 1 : -1);
+					d = (int) distance(data.get("targetXLocateCa"), data.get("targetYLocateCa"));
+					// Si target atteinte : nouvelle target
+					if (d == 0) {
+						data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
+						data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
 					}
 				// si : pas target
 				} else {
-				// 	-> créer target
+				// -> créer target
 					data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
 					data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
 					d = 39;
 				}
-				// 	-> check tout autour de soi ; rayon de 5 cases
+				// -> check tout autour de soi ; rayon de 5 cases
 				for (int i = (int) x - 5; i <= (int) x + 5; i++) {
 					for (int j = (int) y - 5; j <= (int) y + 5; i++) {
 						if (t.getCase(j, i).count("Ca") > 0 && distance(i, j) < d) {
@@ -290,7 +288,7 @@ public class Organisme extends Agent{
 	 * @param x
 	 * @param y
 	 * @param ol
-	 * @return
+	 * @return true si n est supérieur ou égal à 5, false sinon
 	 */
 	public boolean caseLibre(int x, int y, ArrayList<Organisme> ol) {
 		int n = 0;
@@ -310,7 +308,7 @@ public class Organisme extends Agent{
 	 * 
 	 * @param r
 	 * @param ol
-	 * @return
+	 * @return 
 	 */
 	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
 		switch (type) {
@@ -321,5 +319,9 @@ public class Organisme extends Agent{
 			default:
 				return caseLibre(r.getX(), r.getY(), ol);
 		}
+	}
+
+	public void seDeplacer(int x_, int y_) {
+		x = (double) x_; y = (double) y_;
 	}
 }

@@ -35,7 +35,7 @@ public class TestSimulation {
 		RessourceDynamique [] tabDyn = new RessourceDynamique[20];
 		RessourceStatique [] tabStat = new RessourceStatique[20];
 		RessourceTerrain [] tabTer = new RessourceTerrain[20];
-		Organisme [] tabOr = new Organisme[20];
+		ArrayList<Organisme> list = new Arraylist<Organisme>;
 
 		for (int j=0;j<tabDyn.length;j++){
 			int test = (int)(Math.random() * (3-1+1)+1);
@@ -73,17 +73,17 @@ public class TestSimulation {
 			}
 		}
 
-		for (int j=0;j<tabOr.length;j++){
+		for (int j=0;j<20;j++){
 			int test = (int)(Math.random() * (4-1+1)+1);
 			switch(test){
 				case 1 :
-					tabOr[j] = new Organisme("Rat");
+					list.add(new Organisme("Rat"));
 				case 2 :
-					tabOr[j] = new Organisme("Serpent");
+					list.add(new Organisme("Serpent"));
 				case 3 :
-					tabOr[j] = new Organisme("Isopode");
+					list.add(new Organisme("Isopode"));
 				case 4 :
-					tabOr[j] = new Organisme("Isopode");
+					list.add(new Organisme("Isopode"));
 			}
 			b.addRessource(tabDyn[j].type, 1);
 		}
@@ -136,7 +136,9 @@ public class TestSimulation {
 		u.printBuffer();
 	
 		for(int i=0;i<100;i++){
-			
+			for (Organisme o : tabOr){
+				o.nextTask(u.t,list);
+			}
 		}
 	}
 }

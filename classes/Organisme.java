@@ -63,6 +63,12 @@ public class Organisme extends Agent {
 				break;
 		}
 	}
+
+	public Organisme(Organisme o){
+		super(o.type);
+		currentTask  = o.currentTask;
+		data = o.data;
+	}
 	
 	/**
 	 *

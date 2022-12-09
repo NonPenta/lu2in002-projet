@@ -134,5 +134,20 @@ public class Bundle extends RessourceDynamique{
 		if (!(contains (s))){
 			return 0;
 		}
+		if(isStatic(s)){
+			for (Ressource r : res_stat){
+				if (r.type == s){
+					res++;
+				}
+			}
+		}
+		else{
+			for (Ressource r : res_dyn){
+				if (r.type == s){
+					res++;
+				}
+			}
+		}
+		return res;
 	}
 }

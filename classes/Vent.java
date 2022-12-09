@@ -1,8 +1,19 @@
+/**
+ * @author BERNARD Victor
+ * @author PIRON-PALLISER Maximilien
+ */
 public class Vent extends Agent implements ForceEnvironnementale {
+	/**
+	 * 
+	 */
 	public Vent() {
 		super("Vent");
 	}
 
+	/**
+	 * @param t
+	 * @param f
+	 */
 	public void appliquer(Terrain t, ForceEnvironnementale f) {
 	 Ressource r = null;
 		for (int l = 0; l < t.nbLignes; l++) {
@@ -15,6 +26,10 @@ public class Vent extends Agent implements ForceEnvironnementale {
 		}
 	}
 
+	/**
+	 * @param r
+	 * @param t
+	 */
 	public void agir(Ressource r, Terrain t) {
 		if (r.type == "Spore") {
 			int vitesse = (int)(Math.random()*(13-1+1)+1);         // Initialisation vitesse du vent entre 130kmh et 10 kmh divisé par 10

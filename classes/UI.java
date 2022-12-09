@@ -40,7 +40,7 @@ public class UI {
 	}
 
 	/**
-	 * 
+	 * Permet de créer une nouvelle interfae
 	 * @param height
 	 * @param width
 	 * @return Une nouvelle interface
@@ -66,7 +66,7 @@ public class UI {
 	}
 
 	/**
-	 * 
+	 * Permet de supprimer ce qu'il y a sur l'écran de sortie. 
 	 */
 	public void clearScreen() {
 		System.out.print("\033[2J\033[H");

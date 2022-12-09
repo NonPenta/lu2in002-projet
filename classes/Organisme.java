@@ -165,6 +165,12 @@ public class Organisme extends Agent {
 	 * @param ol
 	 */
 	public void act(Terrain t, ArrayList<Organisme> ol) {
+		if (data.get("Age") > 10000) {
+			t.getCase((int) x, (int) y).addRessource("MatBio", 150);
+			if (data.containsKey("Ca"))
+				t.getCase((int) x, (int) y).addRessource("Ca", data.get("Ca").intValue());
+		}
+
 		switch (currentTask) {
 			case "locateFood":
 				data.merge("Energy", (data.get("FoodInSystem") > 0.04 ? Δf : 0.0 ) - Δe, (v, Δ) -> v + Δ); // MàJ stat energie
@@ -203,7 +209,21 @@ public class Organisme extends Agent {
 						int c, l;
 						c = i < 0 ? (0) : (i > 19 ? 19 : i);
 						l = j < 0 ? (0) : (j > 19 ? 19 : j);
-						if ((t.getCase(l, c).count("Champignons") > 5 || t.getCase(l, c).count("Moisissure") > 0) && distance(l, c) < d) {
+						boolean foodFound = false;
+						switch (type) {
+							case "Rat":
+								foodFound = t.getCase(l, c).contains("Graines");
+							case "Isopode":
+							case "Collembole":
+								foodFound = foodFound || t.getCase(l, c).contains("Moisissure");
+								foodFound = foodFound || t.getCase(l, c).contains("Champignon");
+								break;
+							case "Serpent":
+								foodFound = t.getCase(l, c).contains("MatBio");
+							default:
+								break;
+						}
+						if (foodFound && distance(l, c) < d) {
 							if (data.containsKey("targetXLocateFood")) {
 								data.remove("targetXLocateFood");
 								data.remove("targetYLocateFood");
@@ -227,12 +247,34 @@ public class Organisme extends Agent {
 						int c, l;
 						c = i < 0 ? (0) : (i > 19 ? 19 : i);
 						l = j < 0 ? (0) : (j > 19 ? 19 : j);
-						if ((t.getCase(l, c).count("Champignons") > 5 || t.getCase(l, c).count("Moisissure") > 0) && distance(l, c) < d) {
+						if ((t.getCase(l, c).count("Champignon") > 5 || t.getCase(l, c).count("Moisissure") > 0) && distance(l, c) < d) {
 							data.put("targetXGatherFood", (double) c);
 							data.put("targetYGatherFood", (double) l);
 							d = (int) distance(c, l);
 						}
 					}
+				}
+				if (d == 0) {
+					String food;
+					switch (type) {
+						case "Rat":
+							int g = t.getCase(data.get("targetYGatherFood").intValue(), data.get("targetXGatherFood").intValue()).count("Graines");
+							int c = t.getCase(data.get("targetYGatherFood").intValue(), data.get("targetXGatherFood").intValue()).count("Champignon");
+							food = g > c - 5 ? "Graine" : "Champignon";
+							break;
+						case "Isopode":
+						case "Collembole":
+							int m = t.getCase(data.get("targetYGatherFood").intValue(), data.get("targetXGatherFood").intValue()).count("Moisissure");
+							c = t.getCase(data.get("targetYGatherFood").intValue(), data.get("targetXGatherFood").intValue()).count("Champignon");
+							food = m > c - 5 ? "Moisissure" : "Champignon";
+							break;
+						case "Serpent":
+							food = "MatBio";
+						default:
+							food = "";
+							break;
+						}
+					t.getCase(data.get("targetYGatherFood").intValue(), data.get("targetXGatherFood").intValue()).removeRessource(food, 1);
 				}
 				break;
 			case "reproduceGatherEnergy":
@@ -344,16 +386,24 @@ public class Organisme extends Agent {
 						}
 					}
 				}
+				if (d == 0) {
+					int Ca = t.getCase(data.get("targetYGatherCa").intValue(), data.get("targetXGatherCa").intValue()).count("Ca");
+					if (Ca > 0) {
+						t.getCase(data.get("targetYGatherCa").intValue(), data.get("targetXGatherCa").intValue()).take("Ca");
+					}
+				}
 				break;
 			case "moult":
 				if (!data.containsKey("moultTimeElapsed")) {
 					data.put("moultTimeElapsed", 0.0);
-				} else if (data.get("moultTimeElapsed") < 320) { data.merge("moultTimeElapsed", 1.0, (v, d_) -> v + d_);
+				} else if (data.get("moultTimeElapsed") < 320) {
+					data.merge("moultTimeElapsed", 1.0, (v, d_) -> v + d_);
+					if (data.get("Ca") > 1.0) {
+						t.getCase((int) y, (int) x).addRessource("Ca", 1);
+						data.merge("Ca", -1.0, (v, Δ) -> v + Δ);
+					}
 				} else {
 					data.remove("moultTimeElapsed");
-					Organisme no = new Organisme(type);
-					no.seDeplacer((int) x, (int) y);
-					ol.add(no);
 				}
 				data.merge("Energy", (data.get("FoodInSystem") > .1 ? δf : 0.0 ) + 1.5*Δe, (v, Δ) -> v + Δ); // MàJ stat energie
 				data.merge("FoodInSystem", (data.get("FoodInSystem") > .1 ? -.1 : 0.0 ), (v, Δ) -> v + Δ); // MàJ stat nourriture

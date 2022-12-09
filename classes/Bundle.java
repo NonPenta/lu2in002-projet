@@ -53,7 +53,7 @@ public class Bundle extends RessourceDynamique{
 	 * @param quantite
 	 */
 	public void removeRessource(String type, int quantite) {
-		if (res_types.contains(type)) return;
+		if (!res_types.contains(type)) return;
 		boolean s = isStatic(type);
 		Ressource r;
 

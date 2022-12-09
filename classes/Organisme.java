@@ -68,6 +68,8 @@ public class Organisme extends Agent {
 		super(o.type);
 		currentTask  = o.currentTask;
 		data = o.data;
+		this.seDeplacer((int)o.x, (int)o.y);
+
 	}
 	
 	/**
@@ -254,14 +256,14 @@ public class Organisme extends Agent {
 					d = (int) distance(data.get("targetXLocateCa"), data.get("targetYLocateCa"));
 					// Si target atteinte : nouvelle target
 					if (d == 0) {
-						data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
-						data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+						data.put("targetXLocateCa", (int) (x + (Math.random() * 10 - 5) + 20) % 20);
+						data.put("targetYLocateCa", (int) (y + (Math.random() * 10 - 5) + 20) % 20);
 					}
 				// si : pas target
 				} else {
 				// -> créer target
-					data.put("targetXLocateCa", (int) (x + (Math.random * 10 - 5) + 20) % 20);
-					data.put("targetYLocateCa", (int) (y + (Math.random * 10 - 5) + 20) % 20);
+					data.put("targetXLocateCa", (int) (x + (Math.random() * 10 - 5) + 20) % 20);
+					data.put("targetYLocateCa", (int) (y + (Math.random() * 10 - 5) + 20) % 20);
 					d = 39;
 				}
 				// -> check tout autour de soi ; rayon de 5 cases

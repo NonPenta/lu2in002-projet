@@ -86,7 +86,7 @@ public class Bundle extends RessourceDynamique{
 	 */
 	public void tick() {
 		for (RessourceDynamique r : res_dyn)
-			r.tick(t, this);
+			r.tick(this);
 	}
 
 	/**

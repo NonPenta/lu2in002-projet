@@ -65,10 +65,10 @@ public class Organisme extends Agent{
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param t
 	 * @param ol
-	 * @return
+	 * @return la prochaine tâche à effectuer
 	 */
 	public String nextTask(Terrain t, ArrayList<Organisme> ol) {
 		// Actions ne pouvant être stoppées que par la mort ou leur terminaison : reproduction et mue
@@ -151,7 +151,7 @@ public class Organisme extends Agent{
 	}
 
 	/**
-	 * 
+	 * Fait agir l'organisme 
 	 * @param t
 	 * @param casesLibres
 	 * @param ol
@@ -217,7 +217,7 @@ public class Organisme extends Agent{
 	 * @param x
 	 * @param y
 	 * @param ol
-	 * @return True si n est supérieur ou égal à 5, false sinon
+	 * @return true si n est supérieur ou égal à 5, false sinon
 	 */
 	public boolean caseLibre(int x, int y, ArrayList<Organisme> ol) {
 		int n = 0;

@@ -1,4 +1,12 @@
+/**
+ * @author BERNARD Victor
+ * @author PIRON-PALLISER Maximilien
+ */
 public class Simulation {
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		UI ui = null;
 		try {

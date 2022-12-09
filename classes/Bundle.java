@@ -65,7 +65,7 @@ public class Bundle extends RessourceDynamique{
 
 	/**
 	 * 
-	 * @return
+	 * @return La liste de tous les types de Ressource contenus dans res_types
 	 */
 	public ArrayList<String> res_contenues() {
 		ArrayList<String> list = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Bundle extends RessourceDynamique{
 	/**
 	 * 
 	 * @param type
-	 * @return
+	 * @return Renvoie true si la ressource est statique au moment donné, false sinon
 	 */
 	public boolean isStatic(String type) {
 		switch (type) {

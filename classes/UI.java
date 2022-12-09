@@ -18,6 +18,11 @@ public class UI {
 
 	private Terrain t = new Terrain(20, 20);
 
+	/**
+	 * 
+	 * @param height
+	 * @param width
+	 */
 	private UI(int height, int width) {
 		this.height = height;
 		this.width = width;
@@ -34,22 +39,42 @@ public class UI {
 		cursorY = (int) height / 2;
 	}
 
+	/**
+	 * 
+	 * @param height
+	 * @param width
+	 * @return Une nouvelle interface
+	 * @throws InstantiationException
+	 */
 	public static UI getNewUI(int height, int width) throws InstantiationException {
 		if (isInstantiated) throw new InstantiationException("UI Already Instantiated");
 		isInstantiated = true;
 		return new UI(height, width);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param c
+	 * @param colors
+	 */
 	public void setCell(int x, int y, char c, int... colors) {
 		buffer[y][x] = c;
 		fgColor[y][x] = colors.length > 0 ? colors[0] : fgColor[y][x];
 		bgColor[y][x] = colors.length > 1 ? colors[1] : bgColor[y][x];
 	}
 
+	/**
+	 * 
+	 */
 	public void clearScreen() {
 		System.out.print("\033[2J\033[H");
 	}
 
+	/**
+	 * 
+	 */
 	public void printBuffer() {
 		int fg = 0;
 		int bg = 0;
@@ -64,6 +89,9 @@ public class UI {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void getInput() {
 		try (InputStreamReader isr = new InputStreamReader(System.in);) {
 			char in = (char) isr.read();

@@ -12,7 +12,7 @@ public class Simulation {
 		try {
 		ui = UI.getNewUI(256, 256);
 		} catch (InstantiationException e) {
-			System.out.println("déjà instantié ???");
+			System.out.println("Fin");
 		}
 		for (int i = 0; i < 256; i++)
 			for (int j = 0; j < 256; j++)

@@ -118,7 +118,7 @@ public class TestSimulation {
 
 		for(int i=0;i<20;i++){
 			for(int j=0;j<20;j++){
-				for (RessourceDynamique r : tabStat){
+				for (RessourceStatique r : tabStat){
 					switch(r.type){
 						case "Calcium":
 							u.setCell(i, j,'A');
@@ -136,7 +136,7 @@ public class TestSimulation {
 		u.printBuffer();
 	
 		for(int i=0;i<100;i++){
-
+			
 		}
 	}
 }

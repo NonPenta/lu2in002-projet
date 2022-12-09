@@ -8,7 +8,7 @@ public class TestSimulation {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		UI ui = null;
+		/*UI ui = null;
 		try {
 		ui = UI.getNewUI(256, 256);
 		} catch (InstantiationException e) {
@@ -18,7 +18,7 @@ public class TestSimulation {
 			for (int j = 0; j < 256; j++)
 				ui.setCell(i, j, '*', i, j);
 		ui.clearScreen();
-		ui.printBuffer();
+		ui.printBuffer();*/
 
 		Terrain t = new Terrain();
 		Bundle b = new Bundle();
@@ -72,10 +72,10 @@ public class TestSimulation {
 		for(int j=0;j<tabStat.length;j++){
 			int x = (int)(Math.random()* ((t.nbLignes-1)-0+1)+0);
 			int y = (int)(Math.random()* ((t.nbColonnes-1)-0+1)+0);
-			t.setCase(x, y, tabDyn[j]);
+			t.setCase(x, y, tabStat[j]);
 		}
 
-		t.affiche(1);
+		t.affiche(4);
 	
 		for(int i=0;i<100;i++){
 

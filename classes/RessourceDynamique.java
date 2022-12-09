@@ -25,9 +25,9 @@ public class RessourceDynamique extends Ressource {
 
 	/**
 	 * Permet de fait vieillir la ressource dynamique puis :
-	 * - Dans le cas d'un champignon, s'il a 5 ans, on ajoute un spore à nProduit
+	 * - Dans le cas d'un champignon, s'il a 5 ans, on ajoute 1 nProduit (ici spore)
 	 * - Dans le cas d'une MatBio, on la retire du bundle et on crée une moisissure
-	 * - Dans le cas d'un graminee
+	 * - Dans le cas d'un graminee, s'il a 3 ans, on ajoute 1 à nProduit (ici graine)
 	 * @param t
 	 * @param b
 	 */

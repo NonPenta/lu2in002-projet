@@ -25,13 +25,12 @@ public class RessourceDynamique extends Ressource {
 
 	/**
 	 * Permet de fait vieillir la ressource dynamique puis :
-	 * - Dans le cas d'un champignon, s'il a 5 ans, on ajoute 1 nProduit (ici spore)
-	 * - Dans le cas d'une MatBio, on la retire du bundle et on crée une moisissure
-	 * - Dans le cas d'un graminee, s'il a 3 ans, on ajoute 1 à nProduit (ici graine)
-	 * @param t
+	 * - Dans le cas d'un champignon, on ajoute 1 nProduit tous les 5 ticks
+	 * - Dans le cas d'une MatBio, on diminue sa quantité dans le bundle et on y ajoute une moisissure
+	 * - Dans le cas d'un graminee, on ajoute 1 nProduit tous les 3 ticks
 	 * @param b
 	 */
-	public void tick(Terrain t, Bundle b) {
+	public void tick(Bundle b) {
 		age++;
 		switch (type) {
 		case "Champignon":

@@ -83,9 +83,8 @@ public class Bundle extends RessourceDynamique{
 
 	/**
 	 * Permet d'appliquer un tick sur toutes les ressources dynamiques contenues dans res_dyn
-	 * @param t
 	 */
-	public void tick(Terrain t) {
+	public void tick() {
 		for (RessourceDynamique r : res_dyn)
 			r.tick(t, this);
 	}

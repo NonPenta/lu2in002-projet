@@ -159,6 +159,14 @@ public class Organisme extends Agent{
 	public void act(Terrain t, boolean casesLibres[][], ArrayList<Organisme> ol) {
 		switch (currentTask) {
 			case "locateFood":
+				Ressource target;
+				for (int i = (int) x - 5; i < (int) x + 5; i++) {
+					for (int j = (int) y - 5; j < (int) y + 5; i++) {
+						if (t.getCase(j, i).count("Champignons") > 5 || t.getCase(j, i).count("Moisissure") > 0) {
+							;
+						}
+					}
+				}
 				break; // TODO
 			case "getToFood":
 				break; // TODO

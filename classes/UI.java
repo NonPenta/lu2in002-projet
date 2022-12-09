@@ -13,9 +13,6 @@ public class UI {
 	private int[][] fgColor;
 	private int[][] bgColor;
 
-	private int cursorX;
-	private int cursorY;
-
 	private Terrain t = new Terrain(20, 20);
 
 	/**
@@ -34,9 +31,6 @@ public class UI {
 				fgColor[i][j] = 0; bgColor[i][j] = 0;
 			}
 		}
-
-		cursorX = (int) width / 2;
-		cursorY = (int) height / 2;
 	}
 
 	/**
@@ -46,8 +40,8 @@ public class UI {
 	 * @return Une nouvelle interface
 	 * @throws InstantiationException
 	 */
-	public static UI getNewUI(int height, int width) throws InstantiationException {
-		if (isInstantiated) throw new InstantiationException("UI Already Instantiated");
+	public static UI getNewUI(int height, int width) throws BadInstantiation {
+		if (isInstantiated) throw new BadInstantiation("UI Already Instantiated");
 		isInstantiated = true;
 		return new UI(height, width);
 	}

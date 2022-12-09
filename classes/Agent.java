@@ -19,10 +19,10 @@ public class Agent {
 	}
 
 	/**
-	 * 
+	 * Permet de connaître la distance entre deux points
 	 * @param _x
 	 * @param _y
-	 * @return La distance entre deux points donnés en paramètres
+	 * @return la distance après calcul
 	 */
 
 	public double distance(int _x, int _y) {
@@ -33,7 +33,7 @@ public class Agent {
 	}
 
 	/**
-	 * 
+	 * Permet à un Agent de se déplacer vers un point(nx,ny)
 	 * @param nx
 	 * @param ny
 	 */

@@ -2,7 +2,7 @@
  * @author BERNARD Victor
  * @author PIRON-PALLISER Maximilien
  */
-public class Simulation {
+public class TestSimulation {
 	/**
 	 * 
 	 * @param args

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  * @author BERNARD Victor
  * @author PIRON-PALLISER Maximilien
@@ -35,7 +36,7 @@ public class TestSimulation {
 		RessourceDynamique [] tabDyn = new RessourceDynamique[20];
 		RessourceStatique [] tabStat = new RessourceStatique[20];
 		RessourceTerrain [] tabTer = new RessourceTerrain[20];
-		ArrayList<Organisme> list = new Arraylist<Organisme>;
+		ArrayList<Organisme> list = new ArrayList<Organisme>();
 
 		for (int j=0;j<tabDyn.length;j++){
 			int test = (int)(Math.random() * (3-1+1)+1);
@@ -136,7 +137,7 @@ public class TestSimulation {
 		u.printBuffer();
 	
 		for(int i=0;i<100;i++){
-			for (Organisme o : tabOr){
+			for (Organisme o : list){
 				o.nextTask(u.t,list);
 			}
 		}

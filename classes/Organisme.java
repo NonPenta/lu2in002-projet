@@ -217,7 +217,7 @@ public class Organisme extends Agent{
 	 * @param x
 	 * @param y
 	 * @param ol
-	 * @return
+	 * @return True si n est supérieur ou égal à 5, false sinon
 	 */
 	public boolean caseLibre(int x, int y, ArrayList<Organisme> ol) {
 		int n = 0;
@@ -237,7 +237,7 @@ public class Organisme extends Agent{
 	 * 
 	 * @param r
 	 * @param ol
-	 * @return
+	 * @return 
 	 */
 	public boolean canRest(Ressource r, ArrayList<Organisme> ol) {
 		switch (type) {

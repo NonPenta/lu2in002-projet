@@ -47,8 +47,7 @@ public class Bundle extends RessourceDynamique{
 	}
 
 	/**
-	 * Permet de, si elle est contenu dans une des listes, 
-	 * retirer la ressource de la liste dans laquelle elle est contenue
+	 * Permet de, si elle est contenu dans une des listes, retirer la ressource de la liste dans laquelle elle est contenue
 	 * @param type
 	 * @param quantite
 	 */

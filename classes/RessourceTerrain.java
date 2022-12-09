@@ -24,6 +24,11 @@ public class RessourceTerrain extends Ressource {
 		b.tick();
 	}
 
+	/**
+	 * 
+	 * @param type
+	 * @param quantite
+	 */
 	public void addRessource(String type, int quantite) {
 		b.addRessource(type, quantite);
 	}

@@ -111,6 +111,11 @@ public class Bundle extends RessourceDynamique{
 		}
 	}
 
+	/**
+	 * Permet de savoir s'il existe dans les listes res_stat(si s est statique) ou res_dyn (si s est dynamique) au moins une ressource de type s
+	 * @param s
+	 * @return true si un élément d'une des listes est de type s, false sinon
+	 */
 	public boolean contains(String s){
 		if (isStatic(s)){
 			for (Ressource r : res_stat){
@@ -129,6 +134,11 @@ public class Bundle extends RessourceDynamique{
 		return false;
 	}
 
+	/**
+	 * Permet de connaître le nombre de ressource de type s contenues dans les listes res_stat(si s est statique) ou res_dyn (si s est dynamique)
+	 * @param s
+	 * @return le nombre de ressources de type s contenu dans une des listes
+	 */
 	public int count(String s){
 		int res = 0;
 		if (!(contains (s))){

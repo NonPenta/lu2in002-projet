@@ -20,7 +20,15 @@ public class TestSimulation {
 		ui.clearScreen();
 		ui.printBuffer();*/
 
-		Terrain t = new Terrain();
+		UI u = null;
+		try {
+			u = UI.getNewUI(20,20);
+		}catch(InstantiationException e){
+			System.out.println("Fin");
+			for (int i = 0; i < 20; i++)
+				for (int j = 0; j < 20; j++)
+					u.setCell(i, j, '*',i,j);
+		}
 		Bundle b = new Bundle();
 		//Création des ressources dans un tableau
 		RessourceDynamique [] tabDyn = new RessourceDynamique[20];
@@ -63,7 +71,7 @@ public class TestSimulation {
 			}
 		}
 
-		for(int j=0;j<tabDyn.length;j++){
+		/*for(int j=0;j<tabDyn.length;j++){
 			int x = (int)(Math.random()* ((t.nbLignes-1)-0+1)+0);
 			int y = (int)(Math.random()* ((t.nbColonnes-1)-0+1)+0);
 			t.setCase(x, y, tabDyn[j]);
@@ -73,9 +81,18 @@ public class TestSimulation {
 			int x = (int)(Math.random()* ((t.nbLignes-1)-0+1)+0);
 			int y = (int)(Math.random()* ((t.nbColonnes-1)-0+1)+0);
 			t.setCase(x, y, tabStat[j]);
+		}*/
+
+		for(int i=0;i<20;i++){
+			for(int j=0;j<20;j++){
+				for (RessourceDynamique r :)
+			}
 		}
 
-		t.affiche(4);
+
+		//t.affiche(4);
+		u.clearScreen();
+		u.printBuffer();
 	
 		for(int i=0;i<100;i++){
 

@@ -117,16 +117,12 @@ public class Bundle extends RessourceDynamique{
 				if (r.type == s){
 					return true;
 				}
-				return false;
 			}
 		}
 		else{
 			for (Ressource r : res_dyn){
 				if (r.type == s){
 					return true;
-				}
-				else{
-					return false;
 				}
 			}
 		}
